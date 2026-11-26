@@ -17,10 +17,6 @@ RUN mkdir -p /opt/jenkins/data \
   && chmod 750 /opt/jenkins/data
 
 # Configure agent startup
-
-
-
-
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 
 RUN chmod +x /usr/local/bin/entrypoint.sh

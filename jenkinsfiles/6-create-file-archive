@@ -11,7 +11,7 @@ pipeline {
             
             steps {
                 dir('/opt/jenkins/scripts/jenkins_api') {
-                    stash name: 'python-scripts', includes: 'get_nodes.py'
+                    stash name: 'python-scripts', includes: 'get_node.py'
                 }
             }
         }
@@ -31,7 +31,7 @@ pipeline {
                                 passwordVariable: 'JENKINS_TOKEN'
                             )
                         ]) {
-                            sh 'python3 get_nodes.py'
+                            sh 'python3 get_node.py'
                         }
                     }
                 }

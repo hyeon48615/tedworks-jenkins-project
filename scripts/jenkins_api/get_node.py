@@ -8,8 +8,9 @@ JENKINS_BUILD_NO = os.environ["BUILD_NUMBER"]
 # Jenkins Credential
 JENKINS_USER = os.environ["JENKINS_USER"]
 JENKINS_TOKEN = os.environ["JENKINS_TOKEN"]
+JENKINS_NODE = os.environ["jenkins_node"]
 
-url = f"{JENKINS_URL}/manage/computer/api/json"
+url = f"{JENKINS_URL}/manage/computer/{JENKINS_NODE}/api/json"
 
 response = requests.get(url, auth=(JENKINS_USER, JENKINS_TOKEN))
 
@@ -20,19 +21,19 @@ else:
   print(f"status: {response.status_code}, message: {response.text}")
   response.raise_for_status()
 
-nodes = response.json().get('computer', [])
+node = response.json()
 
-result = { "nodes": [] }
-for node in nodes:
-  result["nodes"].append({
-    "name": node.get('displayName'),
-    "lables": [
-      label["name"] for label in node.get('assignedLabels', [])
+result = {
+  "node": {
+    "name": node.get("displayName"),
+    "labels": [
+      label["name"] for label in node.get("assignedLabels", [])
     ],
-    "idle": node.get('idle'),
-    "executors": len(node.get("executors", [])),
-    "offline": node.get('offline')
-  })
+    "idle": node.get("idle"),
+    "executors": node.get("numExecutors", 0),
+    "offline": node.get("offline")
+  }
+}
 
 base_dir = "/opt/jenkins/data"
 file_name = f"node_info_{JENKINS_BUILD_NO}.json"
