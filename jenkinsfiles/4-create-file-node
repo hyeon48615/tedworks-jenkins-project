@@ -1,0 +1,22 @@
+pipeline {
+    agent { label 'jenkins-node' }
+    
+    parameters {
+        string(name: 'directory', defaultValue: "${JOB_BASE_NAME}")
+        string(name: 'file_name')
+        string(name: 'file_content')
+    }
+
+    stages {
+        stage('Run Python Script') {
+            steps {
+                sh '''
+                    python3 /opt/jenkins/scripts/create_file_argparse.py \
+                        -d "$directory" \
+                        -n "$file_name" \
+                        -c "$file_content"
+                '''
+            }
+        }
+    }
+}

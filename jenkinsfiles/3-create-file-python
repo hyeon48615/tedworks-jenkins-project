@@ -1,0 +1,22 @@
+pipeline {
+    agent any
+    
+    parameters {
+        string(name: 'FOLDER_NAME', defaultValue: "${JOB_BASE_NAME}")
+        string(name: 'FILE_NAME')
+        string(name: 'FILE_CONTENT')
+    }
+
+    stages {
+        stage('Run Python Script') {
+            steps {
+                sh '''
+                    python3 /opt/jenkins/scripts/create_file.py \
+                        "$FOLDER_NAME" \
+                        "$FILE_NAME" \
+                        "$FILE_CONTENT"
+                '''
+            }
+        }
+    }
+}

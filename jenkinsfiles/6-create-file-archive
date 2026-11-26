@@ -1,0 +1,49 @@
+pipeline {
+    agent none
+    
+    parameters {
+        string(name: "jenkins_node", defaultValue: "built-in")
+    }
+
+    stages {
+        stage('Prepare Scripts') {
+            agent { label 'built-in' }
+            
+            steps {
+                dir('/opt/jenkins/scripts/jenkins_api') {
+                    stash name: 'python-scripts', includes: 'get_nodes.py'
+                }
+            }
+        }
+        
+        stage('Run on Node') {
+            agent { label params.jenkins_node }
+            
+            stages {
+                stage('Get Node Info') {
+                    steps {
+                        unstash 'python-scripts'
+                        
+                        withCredentials([
+                            usernamePassword(
+                                credentialsId: 'jenkins-api-token',
+                                usernameVariable: 'JENKINS_USER',
+                                passwordVariable: 'JENKINS_TOKEN'
+                            )
+                        ]) {
+                            sh 'python3 get_nodes.py'
+                        }
+                    }
+                }
+                
+                stage('Archive Node Info') {
+                    steps {
+                        dir ('/opt/jenkins/data') {
+                            archiveArtifacts artifacts: "node_info_${env.BUILD_NUMBER}.json"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

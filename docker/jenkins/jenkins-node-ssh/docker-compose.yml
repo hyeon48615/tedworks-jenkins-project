@@ -1,0 +1,21 @@
+services:
+  jenkins-node:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ${CONTAINER_NAME}
+    volumes:
+      - node_home:/home/jenkins
+      - node_ssh:/etc/ssh
+      - node_data:/opt/jenkins/data
+      - /home/tedworks/scripts:/opt/jenkins/scripts
+
+volumes:
+  node_home:
+  node_ssh:
+  node_data:
+
+networks:
+  default:
+    name: jenkins-local
+    external: true

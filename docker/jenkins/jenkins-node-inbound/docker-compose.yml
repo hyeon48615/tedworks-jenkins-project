@@ -1,0 +1,16 @@
+services:
+  jenkins-node:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ${CONTAINER_NAME}
+    env_file:
+      - .env
+    volumes:
+      - node_home:/home/jenkins
+      - node_data:/opt/jenkins/data
+      - /home/tedworks/scripts:/opt/jenkins/scripts
+
+volumes:
+  node_home:
+  node_data:

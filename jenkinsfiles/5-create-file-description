@@ -1,0 +1,29 @@
+pipeline {
+    agent { label params.jenkins_node }
+    
+    parameters {
+        string(name: 'jenkins_node', defaultValue: 'built-in')
+        string(name: 'directory', defaultValue: "${JOB_BASE_NAME}")
+        string(name: 'file_name')
+        text(name: 'file_content')
+    }
+
+    stages {
+        stage('Set Description') {
+            steps {
+                script {
+                    currentBuild.description = "실행 노드 : ${env.NODE_NAME}\n" + 
+                        params.collect { key, value ->
+                            "${key} : ${value}"
+                        }.join('\n')
+                }
+            }
+        }
+        
+        stage('Run Python Script') {
+            steps {
+                sh 'python3 /opt/jenkins/scripts/create_file_env.py'
+            }
+        }
+    }
+}

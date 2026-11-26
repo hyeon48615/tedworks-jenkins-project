@@ -1,0 +1,23 @@
+services:
+  jenkins-controller:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: jenkins
+    restart: on-failure
+    ports:
+      - "8088:8080"
+      - "50000:50000"
+    volumes:
+      - jenkins_home:/var/jenkins_home
+      - jenkins_data:/opt/jenkins/data
+      - /home/tedworks/scripts:/opt/jenkins/scripts
+
+volumes:
+  jenkins_home:
+  jenkins_data:
+
+networks:
+  default:
+    name: jenkins-local
+    external: true
