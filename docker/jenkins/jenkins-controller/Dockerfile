@@ -8,8 +8,8 @@ RUN apt-get update \
   # Install Python libraries
   && apt-get install -y python3-requests
 
-RUN mkdir -p /opt/jenkins/data \
-  && chown jenkins:jenkins /opt/jenkins/data \
-  && chmod 750 /opt/jenkins/data
+RUN mkdir -p /var/jenkins/data \
+  && chown jenkins:jenkins /var/jenkins/data \
+  && chmod 750 /var/jenkins/data
 
 USER jenkins

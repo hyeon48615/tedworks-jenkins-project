@@ -12,9 +12,9 @@ RUN apt-get update \
   && mkdir -p /home/jenkins/agent \
   && chown -R jenkins:jenkins /home/jenkins
 
-RUN mkdir -p /opt/jenkins/data \
-  && chown -R jenkins:jenkins /opt/jenkins/data \
-  && chmod 750 /opt/jenkins/data
+RUN mkdir -p /home/jenkins/data \
+  && chown -R jenkins:jenkins /home/jenkins/data \
+  && chmod 750 /home/jenkins/data
 
 # Configure agent startup
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh

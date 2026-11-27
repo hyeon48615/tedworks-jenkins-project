@@ -1,16 +1,15 @@
+name: jenkins
+
 services:
-  jenkins-node:
+  inbound-node:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: ${CONTAINER_NAME}
     env_file:
       - .env
     volumes:
-      - node_home:/home/jenkins
-      - node_data:/opt/jenkins/data
-      - /home/tedworks/scripts:/opt/jenkins/scripts
+      - inbound_node_home:/home/jenkins
+      - /home/tedworks/tedworks-jenkins-project/scripts:/opt/jenkins/scripts
 
 volumes:
-  node_home:
-  node_data:
+  inbound_node_home:

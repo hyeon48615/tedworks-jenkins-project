@@ -7,8 +7,8 @@ pipeline {
                 withCredentials([sshUserPrivateKey(credentialsId: 'ssh-key-tedworks', keyFileVariable: 'SSH_KEY_FILE', usernameVariable: 'SSH_USER')]) {
                     sh '''
                         ssh -i "$SSH_KEY_FILE" -o StrictHostKeyChecking=no "${SSH_USER}@172.30.1.77" "
-                            mkdir -p ~/data/${JOB_BASE_NAME}
-                            echo "폴더 및 파일 생성 파이프라인" > ~/data/${JOB_BASE_NAME}/pipeline1.txt
+                            mkdir -p ${TEDWORKS_HOME}/artifacts/data/${JOB_BASE_NAME}
+                            echo "폴더 및 파일 생성 파이프라인" > ${TEDWORKS_HOME}/artifacts/data/${JOB_BASE_NAME}/pipeline1.txt
                         "
                     '''
                 }

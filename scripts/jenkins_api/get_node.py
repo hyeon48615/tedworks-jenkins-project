@@ -35,7 +35,7 @@ result = {
   }
 }
 
-base_dir = "/opt/jenkins/data"
+base_dir = "/home/jenkins/data"
 file_name = f"node_info_{JENKINS_BUILD_NO}.json"
 
 target = os.path.join(base_dir, file_name)
